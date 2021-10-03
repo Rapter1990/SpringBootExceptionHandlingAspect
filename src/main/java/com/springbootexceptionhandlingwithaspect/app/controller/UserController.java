@@ -47,7 +47,7 @@ public class UserController {
 
     // http://localhost:8082/api/user/v1/user/getUserById/{id}
     @GetMapping("/user/getUserById/{id}")
-    public ResponseEntity<User> getByIdMaterial(@PathVariable long id) {
+    public ResponseEntity<User> getByIdUser(@PathVariable long id) {
 
         User user = userService.findById(id);
         return ResponseEntity.ok(user);
@@ -55,7 +55,7 @@ public class UserController {
 
     // http://localhost:8082/api/user/v1/user/update?id={id}
     @PutMapping("/user/update")
-    public ResponseEntity<User> updateMaterial(@RequestParam long id, @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@RequestParam long id, @RequestBody User user) {
 
         User updatedUser = userService.update(id,user);
         return ResponseEntity.ok(updatedUser);
@@ -63,7 +63,7 @@ public class UserController {
 
     // http://localhost:8082/api/user/v1/user/delete/{id}
     @DeleteMapping("/user/delete/{id}")
-    public void deleteMaterial(@PathVariable long id) {
+    public void deleteUser(@PathVariable long id) {
         userService.delete(id);
     }
 }

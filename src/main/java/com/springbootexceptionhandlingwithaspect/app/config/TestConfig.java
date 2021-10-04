@@ -44,9 +44,9 @@ public class TestConfig implements CommandLineRunner {
         Category cat1 = new Category();
         cat1.setName("Electronics");
         Category cat2 = new Category();
-        cat1.setName("Books");
+        cat2.setName("Books");
         Category cat3 = new Category();
-        cat1.setName("Computers");
+        cat3.setName("Computers");
 
 
         categoryService.saveAll(Arrays.asList(cat1, cat2, cat3));

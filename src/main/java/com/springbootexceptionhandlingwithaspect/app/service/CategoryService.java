@@ -47,6 +47,12 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
+    public void saveAll(List<Category> categoryList) {
+        LOG.info("CategoryService | saveAll is called");
+        categoryRepository.saveAll(categoryList);
+    }
+
+    @Override
     public void delete(Long id) {
         LOG.info("CategoryService | delete is called");
         Optional<Category> category = categoryRepository.findById(id);

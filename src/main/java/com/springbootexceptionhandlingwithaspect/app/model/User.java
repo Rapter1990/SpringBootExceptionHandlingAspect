@@ -33,7 +33,7 @@ public class User implements Serializable {
     private String password;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private Set<Order> orders = new HashSet<>();
 
     @Override

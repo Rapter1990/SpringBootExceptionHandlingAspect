@@ -12,4 +12,5 @@ public interface IPaymentService {
     public Payment save(Payment payment);
     public void delete(Long id);
     public Payment update(Long id, Payment payment);
+    public void saveAll(List<Payment> paymentList);
 }

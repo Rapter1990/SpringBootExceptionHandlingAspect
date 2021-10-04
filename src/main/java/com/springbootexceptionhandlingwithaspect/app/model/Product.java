@@ -33,7 +33,7 @@ public class Product implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private Set<OrderItem> items = new HashSet<OrderItem>();
 
     @Override

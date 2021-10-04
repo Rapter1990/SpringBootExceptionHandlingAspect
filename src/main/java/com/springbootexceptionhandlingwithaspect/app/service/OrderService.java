@@ -2,6 +2,7 @@ package com.springbootexceptionhandlingwithaspect.app.service;
 
 import com.springbootexceptionhandlingwithaspect.app.model.Category;
 import com.springbootexceptionhandlingwithaspect.app.model.Order;
+import com.springbootexceptionhandlingwithaspect.app.model.OrderItem;
 import com.springbootexceptionhandlingwithaspect.app.repository.OrderRepository;
 import com.springbootexceptionhandlingwithaspect.app.repository.ProductRepository;
 import com.springbootexceptionhandlingwithaspect.app.service.impl.IOrderService;
@@ -44,6 +45,12 @@ public class OrderService implements IOrderService {
     public Order save(Order order) {
         LOG.info("OrderService | save is called");
         return orderRepository.save(order);
+    }
+
+    @Override
+    public void saveAll(List<Order> orderList) {
+        LOG.info("OrderService | saveAll is called");
+        orderRepository.saveAll(orderList);
     }
 
     @Override

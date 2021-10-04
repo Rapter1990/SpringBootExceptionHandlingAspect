@@ -12,4 +12,5 @@ public interface ICategoryService {
     public Category save(Category category);
     public void delete(Long id);
     public Category update(Long id, Category category);
+    public void saveAll(List<Category> categoryList);
 }

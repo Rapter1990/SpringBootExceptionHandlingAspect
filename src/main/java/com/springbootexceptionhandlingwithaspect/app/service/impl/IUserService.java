@@ -1,5 +1,6 @@
 package com.springbootexceptionhandlingwithaspect.app.service.impl;
 
+import com.springbootexceptionhandlingwithaspect.app.model.Product;
 import com.springbootexceptionhandlingwithaspect.app.model.User;
 
 import java.util.List;
@@ -11,5 +12,5 @@ public interface IUserService {
     public User save(User user);
     public void delete(Long id);
     public User update(Long id, User user);
-
+    public void saveAll(List<User> userList);
 }

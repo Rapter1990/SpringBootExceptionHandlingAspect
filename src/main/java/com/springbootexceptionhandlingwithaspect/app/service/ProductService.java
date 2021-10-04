@@ -1,6 +1,7 @@
 package com.springbootexceptionhandlingwithaspect.app.service;
 
 import com.springbootexceptionhandlingwithaspect.app.model.Category;
+import com.springbootexceptionhandlingwithaspect.app.model.Payment;
 import com.springbootexceptionhandlingwithaspect.app.model.Product;
 import com.springbootexceptionhandlingwithaspect.app.repository.ProductRepository;
 import com.springbootexceptionhandlingwithaspect.app.service.impl.IProductService;
@@ -43,6 +44,12 @@ public class ProductService implements IProductService {
     public Product save(Product product) {
         LOG.info("ProductService | save is called");
         return productRepository.save(product);
+    }
+
+    @Override
+    public void saveAll(List<Product> productList) {
+        LOG.info("ProductService | saveAll is called");
+        productRepository.saveAll(productList);
     }
 
     @Override

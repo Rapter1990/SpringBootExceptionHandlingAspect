@@ -11,4 +11,5 @@ public interface IOrderItemService {
     public OrderItem save(OrderItem orderItem);
     public void delete(Long id);
     public OrderItem update(Long id, OrderItem orderItem);
+    public void saveAll(List<OrderItem> orderItemList);
 }

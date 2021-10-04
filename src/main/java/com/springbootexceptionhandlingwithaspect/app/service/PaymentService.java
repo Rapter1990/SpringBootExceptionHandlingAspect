@@ -47,6 +47,12 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
+    public void saveAll(List<Payment> paymentList) {
+        LOG.info("PaymentService | saveAll is called");
+        paymentRepository.saveAll(paymentList);
+    }
+
+    @Override
     public void delete(Long id) {
         LOG.info("PaymentService | delete is called");
         Optional<Payment> payment = paymentRepository.findById(id);

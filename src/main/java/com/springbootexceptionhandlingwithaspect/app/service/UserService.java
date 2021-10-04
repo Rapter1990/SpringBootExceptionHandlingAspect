@@ -1,5 +1,6 @@
 package com.springbootexceptionhandlingwithaspect.app.service;
 
+import com.springbootexceptionhandlingwithaspect.app.model.Product;
 import com.springbootexceptionhandlingwithaspect.app.model.User;
 import com.springbootexceptionhandlingwithaspect.app.repository.UserRepository;
 import com.springbootexceptionhandlingwithaspect.app.service.impl.IUserService;
@@ -43,6 +44,12 @@ public class UserService implements IUserService {
     public User save(User user) {
         LOG.info("UserService | save is called");
         return userRepository.save(user);
+    }
+
+    @Override
+    public void saveAll(List<User> userList) {
+        LOG.info("UserService | saveAll is called");
+        userRepository.saveAll(userList);
     }
 
     @Override

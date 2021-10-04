@@ -1,6 +1,7 @@
 package com.springbootexceptionhandlingwithaspect.app.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "db_category")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Category implements Serializable {
 
     @Id

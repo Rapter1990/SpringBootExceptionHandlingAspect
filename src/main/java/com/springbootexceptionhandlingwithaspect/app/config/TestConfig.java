@@ -3,6 +3,8 @@ package com.springbootexceptionhandlingwithaspect.app.config;
 import com.springbootexceptionhandlingwithaspect.app.model.*;
 import com.springbootexceptionhandlingwithaspect.app.model.enums.OrderStatus;
 import com.springbootexceptionhandlingwithaspect.app.service.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,6 +13,8 @@ import java.util.Arrays;
 
 @Configuration
 public class TestConfig implements CommandLineRunner {
+
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
 
     private final UserService userService;
 
@@ -34,6 +38,8 @@ public class TestConfig implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        LOG.info("TestConfig | run is called");
+
         // Category
         Category cat1 = new Category();
         cat1.setName("Electronics");
@@ -42,7 +48,9 @@ public class TestConfig implements CommandLineRunner {
         Category cat3 = new Category();
         cat1.setName("Computers");
 
+
         categoryService.saveAll(Arrays.asList(cat1, cat2, cat3));
+        LOG.info("TestConfig | run | All categories are added");
 
         // Product
         Product p1 =  new Product();
@@ -70,6 +78,7 @@ public class TestConfig implements CommandLineRunner {
         p1.getCategories().add(cat2);
 
         productService.saveAll(Arrays.asList(p1, p2, p3, p4));
+        LOG.info("TestConfig | run | All products are added");
 
         // User
         User u1 = new User();
@@ -85,6 +94,7 @@ public class TestConfig implements CommandLineRunner {
         u2.setPassword("123456");
 
         userService.saveAll(Arrays.asList(u1, u2));
+        LOG.info("TestConfig | run | All users are added");
 
         // Order and Payment
         Order o1 = new Order();
@@ -119,7 +129,9 @@ public class TestConfig implements CommandLineRunner {
         oi2.setQuantity(2);
 
         orderItemService.saveAll(Arrays.asList(oi1, oi2));
+        LOG.info("TestConfig | run | All orderItems are added");
 
         orderService.saveAll(Arrays.asList(o1, o2));
+        LOG.info("TestConfig | run | All orders are added");
     }
 }

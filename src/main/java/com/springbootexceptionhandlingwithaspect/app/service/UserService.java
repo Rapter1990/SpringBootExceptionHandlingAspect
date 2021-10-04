@@ -23,18 +23,6 @@ public class UserService implements IUserService {
         this.userRepository = userRepository;
     }
 
-    /*
-
-        {
-            "name": "User Green",
-            "email" : "usergreen@user.com",
-            "phone" : "1111111",
-            "password" : "123456"
-        }
-
-
-     */
-
 
     @Override
     public List<User> getAll() {

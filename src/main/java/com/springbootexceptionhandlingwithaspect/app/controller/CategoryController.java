@@ -1,7 +1,6 @@
 package com.springbootexceptionhandlingwithaspect.app.controller;
 
 import com.springbootexceptionhandlingwithaspect.app.model.Category;
-import com.springbootexceptionhandlingwithaspect.app.model.User;
 import com.springbootexceptionhandlingwithaspect.app.service.CategoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,8 +44,8 @@ public class CategoryController {
 
     // http://localhost:8082/api/category/v1/category/getCategoryById/{id}
     @GetMapping("/category/getCategoryById/{id}")
-    public ResponseEntity<Category> getByIdCategory(@PathVariable long id) {
-        LOG.info("CategoryController | getByIdCategory is called");
+    public ResponseEntity<Category> getCategoryById(@PathVariable long id) {
+        LOG.info("CategoryController | getCategoryById is called");
         Category category = categoryService.findById(id);
         return ResponseEntity.ok(category);
     }
@@ -62,6 +61,7 @@ public class CategoryController {
     // http://localhost:8082/api/category/v1/category/delete/{id}
     @DeleteMapping("/category/delete/{id}")
     public void deleteCategory(@PathVariable long id) {
+        LOG.info("CategoryController | deleteCategory is called");
         categoryService.delete(id);
     }
 }

@@ -47,8 +47,8 @@ public class UserController {
 
     // http://localhost:8082/api/user/v1/user/getUserById/{id}
     @GetMapping("/user/getUserById/{id}")
-    public ResponseEntity<User> getByIdUser(@PathVariable long id) {
-        LOG.info("UserController | getByIdUser is called");
+    public ResponseEntity<User> getUserById(@PathVariable long id) {
+        LOG.info("UserController | getUserById is called");
         User user = userService.findById(id);
         return ResponseEntity.ok(user);
     }

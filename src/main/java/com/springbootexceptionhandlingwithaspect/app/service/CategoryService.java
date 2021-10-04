@@ -41,9 +41,9 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public Category save(Category user) {
+    public Category save(Category category) {
         LOG.info("CategoryService | save is called");
-        return categoryRepository.save(user);
+        return categoryRepository.save(category);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public Category update(Long id, Category category) {
-        LOG.info("CategoryService | delete is called");
+        LOG.info("CategoryService | update is called");
         Optional<Category> selectedCategory = categoryRepository.findById(id);
         if(selectedCategory.isPresent()) {
             Category categoryUpdate = selectedCategory.get();

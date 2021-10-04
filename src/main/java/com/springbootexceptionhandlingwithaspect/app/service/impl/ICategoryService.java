@@ -9,7 +9,7 @@ public interface ICategoryService {
 
     public List<Category> getAll();
     public Category findById(Long id);
-    public Category save(Category user);
+    public Category save(Category category);
     public void delete(Long id);
-    public Category update(Long id, Category user);
+    public Category update(Long id, Category category);
 }

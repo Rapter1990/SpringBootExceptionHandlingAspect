@@ -34,21 +34,21 @@ public class UserController {
     // http://localhost:8082/api/user/v1/users
     @GetMapping("/users")
     public List<User> getAll() {
-
+        LOG.info("UserController | getAll is called");
         return userService.getAll();
     }
 
     // http://localhost:8082/api/user/v1/user/add
     @PostMapping("/user/add")
     public User createUser(@RequestBody User user) {
-
+        LOG.info("UserController | createUser is called");
         return userService.save(user);
     }
 
     // http://localhost:8082/api/user/v1/user/getUserById/{id}
     @GetMapping("/user/getUserById/{id}")
     public ResponseEntity<User> getByIdUser(@PathVariable long id) {
-
+        LOG.info("UserController | getByIdUser is called");
         User user = userService.findById(id);
         return ResponseEntity.ok(user);
     }
@@ -56,7 +56,7 @@ public class UserController {
     // http://localhost:8082/api/user/v1/user/update?id={id}
     @PutMapping("/user/update")
     public ResponseEntity<User> updateUser(@RequestParam long id, @RequestBody User user) {
-
+        LOG.info("UserController | updateUser is called");
         User updatedUser = userService.update(id,user);
         return ResponseEntity.ok(updatedUser);
     }
@@ -64,6 +64,7 @@ public class UserController {
     // http://localhost:8082/api/user/v1/user/delete/{id}
     @DeleteMapping("/user/delete/{id}")
     public void deleteUser(@PathVariable long id) {
+        LOG.info("UserController | deleteUser is called");
         userService.delete(id);
     }
 }

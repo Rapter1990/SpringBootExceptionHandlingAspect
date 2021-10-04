@@ -70,6 +70,7 @@ public class UserService implements IUserService {
 
     @Override
     public User update(Long id, User user) {
+        LOG.info("UserService | update is called");
         Optional<User> selectedUser = userRepository.findById(id);
         if(selectedUser.isPresent()) {
             User userUpdate = selectedUser.get();
@@ -79,7 +80,9 @@ public class UserService implements IUserService {
             userUpdate.setPhone(user.getPhone());
             userUpdate.setPassword(user.getPassword());
 
+
             return userRepository.save(userUpdate);
+
         }
 
         return null;

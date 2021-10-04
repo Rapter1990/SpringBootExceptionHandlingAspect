@@ -35,7 +35,7 @@ public class CategoryService implements ICategoryService {
     public Category findById(Long id) {
         LOG.info("CategoryService | findById is called");
 
-        LOG.info("CategoryService | findById | user : " + categoryRepository.getById(id).toString());
+        LOG.info("CategoryService | findById | category : " + categoryRepository.getById(id).toString());
 
         return categoryRepository.getById(id);
     }
@@ -59,6 +59,7 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public Category update(Long id, Category category) {
+        LOG.info("CategoryService | delete is called");
         Optional<Category> selectedCategory = categoryRepository.findById(id);
         if(selectedCategory.isPresent()) {
             Category categoryUpdate = selectedCategory.get();

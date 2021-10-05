@@ -7,6 +7,7 @@ import com.springbootexceptionhandlingwithaspect.app.repository.CategoryReposito
 import com.springbootexceptionhandlingwithaspect.app.repository.ProductRepository;
 import com.springbootexceptionhandlingwithaspect.app.request.ProductDTO;
 import com.springbootexceptionhandlingwithaspect.app.service.impl.IProductService;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,11 +26,25 @@ public class ProductService implements IProductService {
 
     private final CategoryRepository categoryRepository;
 
-    public ProductService(ProductRepository productRepository,CategoryRepository categoryRepository) {
+    private final ModelMapper modelMapper;
+
+    public ProductService(ProductRepository productRepository,CategoryRepository categoryRepository, ModelMapper modelMapper) {
 
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
+        this.modelMapper = modelMapper;
     }
+
+    /**
+     *
+     * {
+     *     "name": "Smart Phone",
+     *     "description": "Smart Phone Description",
+     *     "price": 1200.0,
+     *     "categoryId": 1
+     * }
+     */
+
 
     @Override
     public List<Product> getAll() {
@@ -38,12 +53,16 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product findById(Long id) {
+    public ProductDTO findById(Long id) {
         LOG.info("ProductService | findById is called");
 
         LOG.info("ProductService | findById | category : " + productRepository.getById(id).toString());
 
-        return productRepository.getById(id);
+        Product product = productRepository.getById(id);
+
+        ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
+
+        return productDTO;
     }
 
     @Override

@@ -22,12 +22,9 @@ public class UserService implements IUserService {
 
     private final UserRepository userRepository;
 
-    private final OrderRepository orderRepository;
 
-    public UserService(UserRepository userRepository,OrderRepository orderRepository) {
-
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.orderRepository = orderRepository;
     }
 
 
@@ -50,14 +47,11 @@ public class UserService implements IUserService {
     public User save(UserDTO userDTO) {
         LOG.info("UserService | save is called");
 
-        Order selectedOrder = orderRepository.getById(userDTO.getOrderId());
-
         User user = new User();
         user.setPassword(userDTO.getPassword());
         user.setPhone(userDTO.getPhone());
         user.setEmail(userDTO.getEmail());
         user.setName(userDTO.getName());
-        user.getOrders().add(selectedOrder);
 
         return userRepository.save(user);
     }
@@ -84,8 +78,6 @@ public class UserService implements IUserService {
         LOG.info("UserService | update is called");
         Optional<User> selectedUser = userRepository.findById(id);
 
-        Order selectedOrder = orderRepository.getById(userDTO.getOrderId());
-
         if(selectedUser.isPresent()) {
             User userUpdate = selectedUser.get();
             userUpdate.setId(id);
@@ -93,7 +85,6 @@ public class UserService implements IUserService {
             userUpdate.setName(userDTO.getName());
             userUpdate.setPhone(userDTO.getPhone());
             userUpdate.setPassword(userDTO.getPassword());
-            userUpdate.getOrders().add(selectedOrder);
 
             return userRepository.save(userUpdate);
 

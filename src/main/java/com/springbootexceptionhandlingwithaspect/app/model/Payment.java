@@ -26,7 +26,7 @@ public class Payment implements Serializable {
     private Instant moment;
 
     @JsonIgnore
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private Order order;
 
     @Override

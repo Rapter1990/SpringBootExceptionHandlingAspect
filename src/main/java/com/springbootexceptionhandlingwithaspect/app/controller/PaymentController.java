@@ -24,7 +24,7 @@ public class PaymentController {
 
     // http://localhost:8082/api/payment/v1/payments
     @GetMapping("/payments")
-    public List<Payment> getAll() {
+    public List<PaymentDTO> getAll() {
         LOG.info("PaymentController | getAll is called");
         return paymentService.getAll();
     }
@@ -52,8 +52,8 @@ public class PaymentController {
         return ResponseEntity.ok(updatedPayment);
     }
 
-    // http://localhost:8082/api/product/v1/product/delete/{id}
-    @DeleteMapping("/order/delete/{id}")
+    // http://localhost:8082/api/payment/v1/payment/delete/{id}
+    @DeleteMapping("/payment/delete/{id}")
     public void deletePayment(@PathVariable long id) {
         LOG.info("PaymentController | deletePayment is called");
         paymentService.delete(id);

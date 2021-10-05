@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IPaymentService {
 
-    public List<Payment> getAll();
+    public List<PaymentDTO> getAll();
     public Payment findById(Long id);
     public Payment save(PaymentDTO paymentDTO);
     public void delete(Long id);

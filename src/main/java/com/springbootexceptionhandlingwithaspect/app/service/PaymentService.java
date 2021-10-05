@@ -6,6 +6,7 @@ import com.springbootexceptionhandlingwithaspect.app.repository.OrderRepository;
 import com.springbootexceptionhandlingwithaspect.app.repository.PaymentRepository;
 import com.springbootexceptionhandlingwithaspect.app.request.PaymentDTO;
 import com.springbootexceptionhandlingwithaspect.app.service.impl.IPaymentService;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -24,15 +26,22 @@ public class PaymentService implements IPaymentService {
 
     private final OrderRepository orderRepository;
 
-    public PaymentService(PaymentRepository paymentRepository, OrderRepository orderRepository) {
+    private final ModelMapper modelMapper;
+
+    public PaymentService(PaymentRepository paymentRepository, OrderRepository orderRepository,ModelMapper modelMapper) {
         this.paymentRepository = paymentRepository;
         this.orderRepository = orderRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public List<Payment> getAll() {
+    public List<PaymentDTO> getAll() {
         LOG.info("PaymentService | getAll is called");
-        return paymentRepository.findAll();
+
+        return paymentRepository.findAll()
+                .stream()
+                .map(payment -> modelMapper.map(payment, PaymentDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override

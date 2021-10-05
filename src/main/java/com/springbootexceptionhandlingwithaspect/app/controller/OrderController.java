@@ -22,6 +22,16 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    /**
+     * {
+     *     "moment": "2021-06-20T19:53:07Z",
+     *     "orderStatus": 3,
+     *     "userId" : 1,
+     *     "paymentId" : 1,
+     *     "itemId" :1
+     * }
+     */
+
     // http://localhost:8082/api/order/v1/orders
     @GetMapping("/orders")
     public List<Order> getAll() {

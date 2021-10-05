@@ -2,6 +2,7 @@ package com.springbootexceptionhandlingwithaspect.app.controller;
 
 import com.springbootexceptionhandlingwithaspect.app.model.Order;
 import com.springbootexceptionhandlingwithaspect.app.request.OrderDTO;
+import com.springbootexceptionhandlingwithaspect.app.response.OrderDTOResponse;
 import com.springbootexceptionhandlingwithaspect.app.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,10 +49,10 @@ public class OrderController {
 
     // http://localhost:8082/api/order/v1/order/getOrderById/{id}
     @GetMapping("/order/getOrderById/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable long id) {
+    public ResponseEntity<OrderDTOResponse> getOrderById(@PathVariable long id) {
         LOG.info("OrderController | getOrderById is called");
-        Order order = orderService.findById(id);
-        return ResponseEntity.ok(order);
+        OrderDTOResponse orderDTOResponse = orderService.findById(id);
+        return ResponseEntity.ok(orderDTOResponse);
     }
 
     // http://localhost:8082/api/order/v1/order/update?id={id}

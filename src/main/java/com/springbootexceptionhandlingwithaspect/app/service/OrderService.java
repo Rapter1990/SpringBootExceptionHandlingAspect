@@ -3,6 +3,7 @@ package com.springbootexceptionhandlingwithaspect.app.service;
 import com.springbootexceptionhandlingwithaspect.app.model.*;
 import com.springbootexceptionhandlingwithaspect.app.repository.*;
 import com.springbootexceptionhandlingwithaspect.app.request.OrderDTO;
+import com.springbootexceptionhandlingwithaspect.app.response.OrderDTOResponse;
 import com.springbootexceptionhandlingwithaspect.app.service.impl.IOrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -41,12 +43,23 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public Order findById(Long id) {
+    public OrderDTOResponse findById(Long id) {
         LOG.info("OrderService | findById is called");
 
-        LOG.info("OrderService | findById | order : " + orderRepository.getById(id).toString());
+        Optional<Order> order = orderRepository.findById(id);
+        if(order.isPresent()) {
+            Order selectedOrder = order.get();
+            OrderDTOResponse orderDTOResponse = new OrderDTOResponse();
+            orderDTOResponse.setMoment(selectedOrder.getMoment());
+            orderDTOResponse.setOrderStatus(selectedOrder.getOrderStatus());
+            orderDTOResponse.setPayment(selectedOrder.getPayment());
+            orderDTOResponse.setOrderItems(selectedOrder.getItems().stream().collect(Collectors.toList()));
+            orderDTOResponse.setUsers(selectedOrder.getUsers().stream().collect(Collectors.toList()));
 
-        return orderRepository.getById(id);
+            return orderDTOResponse;
+        }
+
+        return null;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.springbootexceptionhandlingwithaspect.app.service;
 
-import com.springbootexceptionhandlingwithaspect.app.model.Category;
 import com.springbootexceptionhandlingwithaspect.app.model.Order;
 import com.springbootexceptionhandlingwithaspect.app.model.OrderItem;
 import com.springbootexceptionhandlingwithaspect.app.model.Product;
@@ -8,6 +7,8 @@ import com.springbootexceptionhandlingwithaspect.app.repository.OrderItemReposit
 import com.springbootexceptionhandlingwithaspect.app.repository.OrderRepository;
 import com.springbootexceptionhandlingwithaspect.app.repository.ProductRepository;
 import com.springbootexceptionhandlingwithaspect.app.request.OrderItemDTO;
+import com.springbootexceptionhandlingwithaspect.app.response.OrderDTOResponse;
+import com.springbootexceptionhandlingwithaspect.app.response.OrderItemDTOResponse;
 import com.springbootexceptionhandlingwithaspect.app.service.impl.IOrderItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -45,12 +47,22 @@ public class OrderItemService implements IOrderItemService {
     }
 
     @Override
-    public OrderItem findById(Long id) {
+    public OrderItemDTOResponse findById(Long id) {
         LOG.info("OrderItemService | findById is called");
 
-        LOG.info("OrderItemService | findById | order : " + orderItemRepository.getById(id).toString());
+        Optional<OrderItem> orderItem = orderItemRepository.findById(id);
+        if(orderItem.isPresent()) {
+            OrderItem selectedOrderItem = orderItem.get();
+            OrderItemDTOResponse orderItemDTOResponse = new OrderItemDTOResponse();
+            orderItemDTOResponse.setOrder(selectedOrderItem.getOrder());
+            orderItemDTOResponse.setPrice(selectedOrderItem.getPrice());
+            orderItemDTOResponse.setProduct(selectedOrderItem.getProduct());
+            orderItemDTOResponse.setQuantity(selectedOrderItem.getQuantity());
 
-        return orderItemRepository.getById(id);
+            return orderItemDTOResponse;
+        }
+
+        return null;
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.springbootexceptionhandlingwithaspect.app.model.Product;
 import com.springbootexceptionhandlingwithaspect.app.repository.CategoryRepository;
 import com.springbootexceptionhandlingwithaspect.app.repository.ProductRepository;
 import com.springbootexceptionhandlingwithaspect.app.request.ProductDTO;
+import com.springbootexceptionhandlingwithaspect.app.response.ProductDTOResponse;
 import com.springbootexceptionhandlingwithaspect.app.service.impl.IProductService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -13,8 +14,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -53,16 +56,22 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public ProductDTO findById(Long id) {
+    public ProductDTOResponse findById(Long id) {
         LOG.info("ProductService | findById is called");
 
-        LOG.info("ProductService | findById | category : " + productRepository.getById(id).toString());
+        Optional<Product> product = productRepository.findById(id);
+        if(product.isPresent()) {
+            Product selectedProduct = product.get();
+            ProductDTOResponse productDTOResponse = new ProductDTOResponse();
+            productDTOResponse.setDescription(selectedProduct.getDescription());
+            productDTOResponse.setName(selectedProduct.getName());
+            productDTOResponse.setPrice(selectedProduct.getPrice());
+            productDTOResponse.setCategories(selectedProduct.getCategories().stream().collect(Collectors.toList()));
+            return productDTOResponse;
 
-        Product product = productRepository.getById(id);
+        }
 
-        ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
-
-        return productDTO;
+        return null;
     }
 
     @Override

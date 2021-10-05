@@ -2,6 +2,7 @@ package com.springbootexceptionhandlingwithaspect.app.controller;
 
 import com.springbootexceptionhandlingwithaspect.app.model.Product;
 import com.springbootexceptionhandlingwithaspect.app.request.ProductDTO;
+import com.springbootexceptionhandlingwithaspect.app.response.ProductDTOResponse;
 import com.springbootexceptionhandlingwithaspect.app.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -41,12 +42,12 @@ public class ProductController {
 
     // http://localhost:8082/api/product/v1/product/getProductById/{id}
     @GetMapping("/product/getProductById/{id}")
-    public ResponseEntity<ProductDTO> getProductById(@PathVariable long id) {
+    public ResponseEntity<ProductDTOResponse> getProductById(@PathVariable long id) {
         LOG.info("ProductController | getProductById is called");
 
-        ProductDTO productDTO = productService.findById(id);
+        ProductDTOResponse productDTOResponse = productService.findById(id);
 
-        return ResponseEntity.ok(productDTO);
+        return ResponseEntity.ok(productDTOResponse);
     }
 
     // http://localhost:8082/api/product/v1/product/update?id={id}

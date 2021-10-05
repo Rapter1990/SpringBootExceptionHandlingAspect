@@ -6,7 +6,7 @@ import java.time.Instant;
 
 @Data
 public class OrderDTO {
-    private Long id;
+
     private Instant moment;
     private int orderStatus;
     private Long userId;

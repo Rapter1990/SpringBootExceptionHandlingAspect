@@ -53,7 +53,7 @@ public class OrderService implements IOrderService {
     public Order save(OrderDTO orderDTO) {
         LOG.info("OrderService | save is called");
 
-        User user = userRepository.getById(orderDTO.getId());
+        User user = userRepository.getById(orderDTO.getUserId());
         Payment payment = paymentRepository.getById(orderDTO.getPaymentId());
         OrderItem orderItem = orderItemRepository.getById(orderDTO.getItemId());
 
@@ -89,7 +89,7 @@ public class OrderService implements IOrderService {
         LOG.info("OrderService | update is called");
         Optional<Order> selectedOrder = orderRepository.findById(id);
 
-        User user = userRepository.getById(orderDTO.getId());
+        User user = userRepository.getById(orderDTO.getUserId());
         Payment payment = paymentRepository.getById(orderDTO.getPaymentId());
         OrderItem orderItem = orderItemRepository.getById(orderDTO.getItemId());
 

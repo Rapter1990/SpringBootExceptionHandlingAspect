@@ -3,6 +3,7 @@ package com.springbootexceptionhandlingwithaspect.app.service;
 import com.springbootexceptionhandlingwithaspect.app.model.Category;
 import com.springbootexceptionhandlingwithaspect.app.model.User;
 import com.springbootexceptionhandlingwithaspect.app.repository.CategoryRepository;
+import com.springbootexceptionhandlingwithaspect.app.request.CategoryDTO;
 import com.springbootexceptionhandlingwithaspect.app.service.impl.ICategoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,8 +42,12 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public Category save(Category category) {
+    public Category save(CategoryDTO categoryDTO) {
         LOG.info("CategoryService | save is called");
+
+        Category category = new Category();
+        category.setName(categoryDTO.getName());
+
         return categoryRepository.save(category);
     }
 
@@ -64,13 +69,13 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public Category update(Long id, Category category) {
+    public Category update(Long id, CategoryDTO categoryDTO) {
         LOG.info("CategoryService | update is called");
         Optional<Category> selectedCategory = categoryRepository.findById(id);
         if(selectedCategory.isPresent()) {
             Category categoryUpdate = selectedCategory.get();
             categoryUpdate.setId(id);
-            categoryUpdate.setName(category.getName());
+            categoryUpdate.setName(categoryDTO.getName());
 
             return categoryRepository.save(categoryUpdate);
         }

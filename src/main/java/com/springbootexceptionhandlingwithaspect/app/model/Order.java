@@ -1,6 +1,7 @@
 package com.springbootexceptionhandlingwithaspect.app.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "db_order")
+@JsonIgnoreProperties(value = {"payment","users","items","hibernateLazyInitializer","handler"})
 public class Order implements Serializable {
 
     @Id

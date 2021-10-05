@@ -4,6 +4,7 @@ import com.springbootexceptionhandlingwithaspect.app.model.Order;
 import com.springbootexceptionhandlingwithaspect.app.model.Payment;
 import com.springbootexceptionhandlingwithaspect.app.repository.OrderRepository;
 import com.springbootexceptionhandlingwithaspect.app.repository.PaymentRepository;
+import com.springbootexceptionhandlingwithaspect.app.request.PaymentDTO;
 import com.springbootexceptionhandlingwithaspect.app.service.impl.IPaymentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +22,11 @@ public class PaymentService implements IPaymentService {
 
     private final PaymentRepository paymentRepository;
 
-    public PaymentService(PaymentRepository paymentRepository) {
+    private final OrderRepository orderRepository;
+
+    public PaymentService(PaymentRepository paymentRepository, OrderRepository orderRepository) {
         this.paymentRepository = paymentRepository;
+        this.orderRepository = orderRepository;
     }
 
     @Override
@@ -41,8 +45,14 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public Payment save(Payment payment) {
+    public Payment save(PaymentDTO paymentDTO) {
         LOG.info("PaymentService | save is called");
+
+        Order order = orderRepository.getById(paymentDTO.getOrderId());
+        Payment payment = new Payment();
+        payment.setMoment(paymentDTO.getMoment());
+        payment.setOrder(order);
+
         return paymentRepository.save(payment);
     }
 
@@ -64,14 +74,17 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public Payment update(Long id, Payment payment) {
+    public Payment update(Long id, PaymentDTO paymentDTO) {
         LOG.info("OrderService | update is called");
         Optional<Payment> selectedPayment = paymentRepository.findById(id);
+
+        Order order = orderRepository.getById(paymentDTO.getOrderId());
+
         if(selectedPayment.isPresent()) {
             Payment paymentUpdate = selectedPayment.get();
             paymentUpdate.setId(id);
-            paymentUpdate.setMoment(payment.getMoment());
-            paymentUpdate.setOrder(payment.getOrder());
+            paymentUpdate.setMoment(paymentDTO.getMoment());
+            paymentUpdate.setOrder(order);
 
             return paymentRepository.save(paymentUpdate);
         }

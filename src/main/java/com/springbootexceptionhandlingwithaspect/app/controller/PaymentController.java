@@ -1,6 +1,7 @@
 package com.springbootexceptionhandlingwithaspect.app.controller;
 
 import com.springbootexceptionhandlingwithaspect.app.model.Payment;
+import com.springbootexceptionhandlingwithaspect.app.request.PaymentDTO;
 import com.springbootexceptionhandlingwithaspect.app.service.PaymentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,7 @@ public class PaymentController {
 
     // http://localhost:8082/api/payment/v1/payment/add
     @PostMapping("/payment/add")
-    public Payment createPayment(@RequestBody Payment payment) {
+    public Payment createPayment(@RequestBody PaymentDTO payment) {
         LOG.info("PaymentController | createOrder is called");
         return paymentService.save(payment);
     }
@@ -44,8 +45,8 @@ public class PaymentController {
     }
 
     // http://localhost:8082/api/payment/v1/payment/update?id={id}
-    @PutMapping("/order/update")
-    public ResponseEntity<Payment> updatePayment(@RequestParam long id, @RequestBody Payment payment) {
+    @PutMapping("/payment/update")
+    public ResponseEntity<Payment> updatePayment(@RequestParam long id, @RequestBody PaymentDTO payment) {
         LOG.info("PaymentController | updatePayment is called");
         Payment updatedPayment = paymentService.update(id,payment);
         return ResponseEntity.ok(updatedPayment);

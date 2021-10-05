@@ -1,6 +1,7 @@
 package com.springbootexceptionhandlingwithaspect.app.controller;
 
 import com.springbootexceptionhandlingwithaspect.app.model.Product;
+import com.springbootexceptionhandlingwithaspect.app.request.ProductDTO;
 import com.springbootexceptionhandlingwithaspect.app.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,7 @@ public class ProductController {
 
     // http://localhost:8082/api/product/v1/product/add
     @PostMapping("/product/add")
-    public Product createProduct(@RequestBody Product product) {
+    public Product createProduct(@RequestBody ProductDTO product) {
         LOG.info("ProductController | createProduct is called");
         return productService.save(product);
     }
@@ -45,7 +46,7 @@ public class ProductController {
 
     // http://localhost:8082/api/product/v1/product/update?id={id}
     @PutMapping("/product/update")
-    public ResponseEntity<Product> updateProduct(@RequestParam long id, @RequestBody Product product) {
+    public ResponseEntity<Product> updateProduct(@RequestParam long id, @RequestBody ProductDTO product) {
         LOG.info("ProductController | updateProduct is called");
         Product updatedProduct = productService.update(id,product);
         return ResponseEntity.ok(updatedProduct);

@@ -1,6 +1,7 @@
 package com.springbootexceptionhandlingwithaspect.app.controller;
 
 import com.springbootexceptionhandlingwithaspect.app.model.User;
+import com.springbootexceptionhandlingwithaspect.app.request.UserDTO;
 import com.springbootexceptionhandlingwithaspect.app.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,7 @@ public class UserController {
 
     // http://localhost:8082/api/user/v1/user/add
     @PostMapping("/user/add")
-    public User createUser(@RequestBody User user) {
+    public User createUser(@RequestBody UserDTO user) {
         LOG.info("UserController | createUser is called");
         return userService.save(user);
     }
@@ -55,7 +56,7 @@ public class UserController {
 
     // http://localhost:8082/api/user/v1/user/update?id={id}
     @PutMapping("/user/update")
-    public ResponseEntity<User> updateUser(@RequestParam long id, @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@RequestParam long id, @RequestBody UserDTO user) {
         LOG.info("UserController | updateUser is called");
         User updatedUser = userService.update(id,user);
         return ResponseEntity.ok(updatedUser);

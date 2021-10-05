@@ -17,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "db_category")
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+@JsonIgnoreProperties(value = {"products","hibernateLazyInitializer","handler"})
 public class Category implements Serializable {
 
     @Id

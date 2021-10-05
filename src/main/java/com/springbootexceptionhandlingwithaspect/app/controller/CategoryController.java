@@ -1,6 +1,7 @@
 package com.springbootexceptionhandlingwithaspect.app.controller;
 
 import com.springbootexceptionhandlingwithaspect.app.model.Category;
+import com.springbootexceptionhandlingwithaspect.app.request.CategoryDTO;
 import com.springbootexceptionhandlingwithaspect.app.service.CategoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +38,7 @@ public class CategoryController {
 
     // http://localhost:8082/api/category/v1/category/add
     @PostMapping("/category/add")
-    public Category createCategory(@RequestBody Category category) {
+    public Category createCategory(@RequestBody CategoryDTO category) {
         LOG.info("CategoryController | createCategory is called");
         return categoryService.save(category);
     }
@@ -52,7 +53,7 @@ public class CategoryController {
 
     // http://localhost:8082/api/category/v1/category/update?id={id}
     @PutMapping("/category/update")
-    public ResponseEntity<Category> updateCategory(@RequestParam long id, @RequestBody Category category) {
+    public ResponseEntity<Category> updateCategory(@RequestParam long id, @RequestBody CategoryDTO category) {
         LOG.info("CategoryController | updateCategory is called");
         Category updatedCategory = categoryService.update(id,category);
         return ResponseEntity.ok(updatedCategory);

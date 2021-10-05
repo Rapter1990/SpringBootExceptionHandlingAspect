@@ -1,6 +1,7 @@
 package com.springbootexceptionhandlingwithaspect.app.controller;
 
 import com.springbootexceptionhandlingwithaspect.app.model.OrderItem;
+import com.springbootexceptionhandlingwithaspect.app.request.OrderItemDTO;
 import com.springbootexceptionhandlingwithaspect.app.service.OrderItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,7 @@ public class OrderItemController {
 
     // http://localhost:8082/api/orderitem/v1/orderitem/add
     @PostMapping("/orderitem/add")
-    public OrderItem createOrderItem(@RequestBody OrderItem orderItem) {
+    public OrderItem createOrderItem(@RequestBody OrderItemDTO orderItem) {
         LOG.info("OrderItemController | createOrderItem is called");
         return orderItemService.save(orderItem);
     }
@@ -45,7 +46,7 @@ public class OrderItemController {
 
     // http://localhost:8082/api/orderitem/v1/orderitem/update?id={id}
     @PutMapping("/orderitem/update")
-    public ResponseEntity<OrderItem> updateOrderItem(@RequestParam long id, @RequestBody OrderItem orderItem) {
+    public ResponseEntity<OrderItem> updateOrderItem(@RequestParam long id, @RequestBody OrderItemDTO orderItem) {
         LOG.info("OrderItemController | updateOrderItem is called");
         OrderItem updatedOrderItem = orderItemService.update(id,orderItem);
         return ResponseEntity.ok(updatedOrderItem);

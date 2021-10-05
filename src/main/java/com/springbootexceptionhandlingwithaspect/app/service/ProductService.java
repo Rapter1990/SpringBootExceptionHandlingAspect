@@ -3,7 +3,9 @@ package com.springbootexceptionhandlingwithaspect.app.service;
 import com.springbootexceptionhandlingwithaspect.app.model.Category;
 import com.springbootexceptionhandlingwithaspect.app.model.Payment;
 import com.springbootexceptionhandlingwithaspect.app.model.Product;
+import com.springbootexceptionhandlingwithaspect.app.repository.CategoryRepository;
 import com.springbootexceptionhandlingwithaspect.app.repository.ProductRepository;
+import com.springbootexceptionhandlingwithaspect.app.request.ProductDTO;
 import com.springbootexceptionhandlingwithaspect.app.service.impl.IProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +23,12 @@ public class ProductService implements IProductService {
 
     private final ProductRepository productRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    private final CategoryRepository categoryRepository;
+
+    public ProductService(ProductRepository productRepository,CategoryRepository categoryRepository) {
+
         this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -41,8 +47,17 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product save(Product product) {
+    public Product save(ProductDTO productDTO) {
         LOG.info("ProductService | save is called");
+
+        Category category = categoryRepository.getById(productDTO.getCategoryId());
+
+        Product product = new Product();
+        product.setName(productDTO.getName());
+        product.setPrice(productDTO.getPrice());
+        product.setDescription(productDTO.getDescription());
+        product.getCategories().add(category);
+
         return productRepository.save(product);
     }
 
@@ -64,17 +79,20 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product update(Long id, Product product) {
+    public Product update(Long id, ProductDTO productDTO) {
         LOG.info("ProductService | update is called");
         Optional<Product> selectedProduct = productRepository.findById(id);
+
+        Category category = categoryRepository.getById(productDTO.getCategoryId());
+
         if(selectedProduct.isPresent()) {
             Product productUpdate = selectedProduct.get();
             productUpdate.setId(id);
-            productUpdate.setName(product.getName());
-            productUpdate.setPrice(product.getPrice());
-            productUpdate.setDescription(product.getDescription());
-            productUpdate.setCategories(product.getCategories());
-            productUpdate.setItems(product.getItems());
+            productUpdate.setName(productDTO.getName());
+            productUpdate.setName(productDTO.getName());
+            productUpdate.setPrice(productDTO.getPrice());
+            productUpdate.setDescription(productDTO.getDescription());
+            productUpdate.getCategories().add(category);
 
             return productRepository.save(productUpdate);
         }

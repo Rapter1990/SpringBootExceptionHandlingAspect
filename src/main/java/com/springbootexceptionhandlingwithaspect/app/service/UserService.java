@@ -1,8 +1,10 @@
 package com.springbootexceptionhandlingwithaspect.app.service;
 
-import com.springbootexceptionhandlingwithaspect.app.model.Product;
+import com.springbootexceptionhandlingwithaspect.app.model.Order;
 import com.springbootexceptionhandlingwithaspect.app.model.User;
+import com.springbootexceptionhandlingwithaspect.app.repository.OrderRepository;
 import com.springbootexceptionhandlingwithaspect.app.repository.UserRepository;
+import com.springbootexceptionhandlingwithaspect.app.request.UserDTO;
 import com.springbootexceptionhandlingwithaspect.app.service.impl.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +22,12 @@ public class UserService implements IUserService {
 
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    private final OrderRepository orderRepository;
+
+    public UserService(UserRepository userRepository,OrderRepository orderRepository) {
+
         this.userRepository = userRepository;
+        this.orderRepository = orderRepository;
     }
 
 
@@ -41,8 +47,18 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User save(User user) {
+    public User save(UserDTO userDTO) {
         LOG.info("UserService | save is called");
+
+        Order selectedOrder = orderRepository.getById(userDTO.getOrderId());
+
+        User user = new User();
+        user.setPassword(userDTO.getPassword());
+        user.setPhone(userDTO.getPhone());
+        user.setEmail(userDTO.getEmail());
+        user.setName(userDTO.getName());
+        user.getOrders().add(selectedOrder);
+
         return userRepository.save(user);
     }
 
@@ -64,17 +80,20 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User update(Long id, User user) {
+    public User update(Long id, UserDTO userDTO) {
         LOG.info("UserService | update is called");
         Optional<User> selectedUser = userRepository.findById(id);
+
+        Order selectedOrder = orderRepository.getById(userDTO.getOrderId());
+
         if(selectedUser.isPresent()) {
             User userUpdate = selectedUser.get();
             userUpdate.setId(id);
-            userUpdate.setEmail(user.getEmail());
-            userUpdate.setName(user.getName());
-            userUpdate.setPhone(user.getPhone());
-            userUpdate.setPassword(user.getPassword());
-
+            userUpdate.setEmail(userDTO.getEmail());
+            userUpdate.setName(userDTO.getName());
+            userUpdate.setPhone(userDTO.getPhone());
+            userUpdate.setPassword(userDTO.getPassword());
+            userUpdate.getOrders().add(selectedOrder);
 
             return userRepository.save(userUpdate);
 

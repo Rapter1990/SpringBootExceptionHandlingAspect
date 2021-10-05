@@ -1,10 +1,8 @@
 package com.springbootexceptionhandlingwithaspect.app.service;
 
-import com.springbootexceptionhandlingwithaspect.app.model.Category;
-import com.springbootexceptionhandlingwithaspect.app.model.Order;
-import com.springbootexceptionhandlingwithaspect.app.model.OrderItem;
-import com.springbootexceptionhandlingwithaspect.app.repository.OrderRepository;
-import com.springbootexceptionhandlingwithaspect.app.repository.ProductRepository;
+import com.springbootexceptionhandlingwithaspect.app.model.*;
+import com.springbootexceptionhandlingwithaspect.app.repository.*;
+import com.springbootexceptionhandlingwithaspect.app.request.OrderDTO;
 import com.springbootexceptionhandlingwithaspect.app.service.impl.IOrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +20,18 @@ public class OrderService implements IOrderService {
 
     private final OrderRepository orderRepository;
 
-    public OrderService(OrderRepository orderRepository) {
+    private final UserRepository userRepository;
+
+    private final PaymentRepository paymentRepository;
+
+    private final OrderItemRepository orderItemRepository;
+
+    public OrderService(OrderRepository orderRepository,UserRepository userRepository,
+                        PaymentRepository paymentRepository,OrderItemRepository orderItemRepository ) {
+        this.userRepository = userRepository;
         this.orderRepository = orderRepository;
+        this.paymentRepository = paymentRepository;
+        this.orderItemRepository = orderItemRepository;
     }
 
     @Override
@@ -42,8 +50,20 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public Order save(Order order) {
+    public Order save(OrderDTO orderDTO) {
         LOG.info("OrderService | save is called");
+
+        User user = userRepository.getById(orderDTO.getId());
+        Payment payment = paymentRepository.getById(orderDTO.getPaymentId());
+        OrderItem orderItem = orderItemRepository.getById(orderDTO.getItemId());
+
+        Order order = new Order();
+        order.setOrderStatus(orderDTO.getOrderStatus());
+        order.setMoment(orderDTO.getMoment());
+        order.getUsers().add(user);
+        order.getItems().add(orderItem);
+        order.setPayment(payment);
+
         return orderRepository.save(order);
     }
 
@@ -65,17 +85,22 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public Order update(Long id, Order order) {
+    public Order update(Long id, OrderDTO orderDTO) {
         LOG.info("OrderService | update is called");
         Optional<Order> selectedOrder = orderRepository.findById(id);
+
+        User user = userRepository.getById(orderDTO.getId());
+        Payment payment = paymentRepository.getById(orderDTO.getPaymentId());
+        OrderItem orderItem = orderItemRepository.getById(orderDTO.getItemId());
+
         if(selectedOrder.isPresent()) {
             Order orderUpdate = selectedOrder.get();
             orderUpdate.setId(id);
-            orderUpdate.setItems(order.getItems());
-            orderUpdate.setMoment(order.getMoment());
-            orderUpdate.setOrderStatus(order.getOrderStatus());
-            orderUpdate.setUsers(order.getUsers());
-            orderUpdate.setPayment(order.getPayment());
+            orderUpdate.setOrderStatus(orderDTO.getOrderStatus());
+            orderUpdate.setMoment(orderDTO.getMoment());
+            orderUpdate.getUsers().add(user);
+            orderUpdate.getItems().add(orderItem);
+            orderUpdate.setPayment(payment);
 
             return orderRepository.save(orderUpdate);
         }

@@ -1,6 +1,7 @@
 package com.springbootexceptionhandlingwithaspect.app.controller;
 
 import com.springbootexceptionhandlingwithaspect.app.model.Order;
+import com.springbootexceptionhandlingwithaspect.app.request.OrderDTO;
 import com.springbootexceptionhandlingwithaspect.app.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,7 @@ public class OrderController {
 
     // http://localhost:8082/api/order/v1/order/add
     @PostMapping("/order/add")
-    public Order createOrder(@RequestBody Order order) {
+    public Order createOrder(@RequestBody OrderDTO order) {
         LOG.info("OrderController | createOrder is called");
         return orderService.save(order);
     }
@@ -45,7 +46,7 @@ public class OrderController {
 
     // http://localhost:8082/api/order/v1/order/update?id={id}
     @PutMapping("/order/update")
-    public ResponseEntity<Order> updateOrder(@RequestParam long id, @RequestBody Order order) {
+    public ResponseEntity<Order> updateOrder(@RequestParam long id, @RequestBody OrderDTO order) {
         LOG.info("OrderController | updateOrder is called");
         Order updatedOrder = orderService.update(id,order);
         return ResponseEntity.ok(updatedOrder);

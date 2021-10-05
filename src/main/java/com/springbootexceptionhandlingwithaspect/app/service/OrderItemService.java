@@ -3,8 +3,11 @@ package com.springbootexceptionhandlingwithaspect.app.service;
 import com.springbootexceptionhandlingwithaspect.app.model.Category;
 import com.springbootexceptionhandlingwithaspect.app.model.Order;
 import com.springbootexceptionhandlingwithaspect.app.model.OrderItem;
+import com.springbootexceptionhandlingwithaspect.app.model.Product;
 import com.springbootexceptionhandlingwithaspect.app.repository.OrderItemRepository;
 import com.springbootexceptionhandlingwithaspect.app.repository.OrderRepository;
+import com.springbootexceptionhandlingwithaspect.app.repository.ProductRepository;
+import com.springbootexceptionhandlingwithaspect.app.request.OrderItemDTO;
 import com.springbootexceptionhandlingwithaspect.app.service.impl.IOrderItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +25,16 @@ public class OrderItemService implements IOrderItemService {
 
     private final OrderItemRepository orderItemRepository;
 
-    public OrderItemService(OrderItemRepository orderItemRepository) {
+    private final ProductRepository productRepository;
+
+    private final OrderRepository orderRepository;
+
+    public OrderItemService(OrderItemRepository orderItemRepository,OrderRepository orderRepository, ProductRepository productRepository) {
+
         this.orderItemRepository = orderItemRepository;
+        this.productRepository = productRepository;
+        this.orderRepository = orderRepository;
+
     }
 
 
@@ -43,8 +54,18 @@ public class OrderItemService implements IOrderItemService {
     }
 
     @Override
-    public OrderItem save(OrderItem orderItem) {
+    public OrderItem save(OrderItemDTO orderItemDTO) {
         LOG.info("OrderItemService | save is called");
+
+        Order order = orderRepository.getById(orderItemDTO.getOrderId());
+        Product product = productRepository.getById(orderItemDTO.getProductId());
+
+        OrderItem orderItem = new OrderItem();
+        orderItem.setQuantity(orderItemDTO.getQuantity());
+        orderItem.setOrder(order);
+        orderItem.setProduct(product);
+        orderItem.setPrice(orderItemDTO.getPrice());
+
         return orderItemRepository.save(orderItem);
     }
 
@@ -66,16 +87,20 @@ public class OrderItemService implements IOrderItemService {
     }
 
     @Override
-    public OrderItem update(Long id, OrderItem orderItem) {
+    public OrderItem update(Long id, OrderItemDTO orderItemDTO) {
         LOG.info("OrderItemService | update is called");
         Optional<OrderItem> selectedOrderItem = orderItemRepository.findById(id);
+
+        Order order = orderRepository.getById(orderItemDTO.getOrderId());
+        Product product = productRepository.getById(orderItemDTO.getProductId());
+
         if(selectedOrderItem.isPresent()) {
             OrderItem orderItemUpdate = selectedOrderItem.get();
             orderItemUpdate.setId(id);
-            orderItemUpdate.setOrder(orderItem.getOrder());
-            orderItemUpdate.setPrice(orderItem.getPrice());
-            orderItemUpdate.setProduct(orderItem.getProduct());
-            orderItemUpdate.setQuantity(orderItem.getQuantity());
+            orderItemUpdate.setQuantity(orderItemDTO.getQuantity());
+            orderItemUpdate.setOrder(order);
+            orderItemUpdate.setProduct(product);
+            orderItemUpdate.setPrice(orderItemDTO.getPrice());
 
             return orderItemRepository.save(orderItemUpdate);
         }

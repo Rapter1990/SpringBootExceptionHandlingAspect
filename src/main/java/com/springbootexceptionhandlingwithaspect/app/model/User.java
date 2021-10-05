@@ -17,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "db_user")
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+@JsonIgnoreProperties(value = {"orders","hibernateLazyInitializer","handler"})
 public class User implements Serializable {
 
     @Id

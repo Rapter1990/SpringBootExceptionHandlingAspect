@@ -2,9 +2,12 @@ package com.springbootexceptionhandlingwithaspect.app.service;
 
 import com.springbootexceptionhandlingwithaspect.app.model.Order;
 import com.springbootexceptionhandlingwithaspect.app.model.Payment;
+import com.springbootexceptionhandlingwithaspect.app.model.Product;
 import com.springbootexceptionhandlingwithaspect.app.repository.OrderRepository;
 import com.springbootexceptionhandlingwithaspect.app.repository.PaymentRepository;
 import com.springbootexceptionhandlingwithaspect.app.request.PaymentDTO;
+import com.springbootexceptionhandlingwithaspect.app.response.PaymentDTOResponse;
+import com.springbootexceptionhandlingwithaspect.app.response.ProductDTOResponse;
 import com.springbootexceptionhandlingwithaspect.app.service.impl.IPaymentService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -45,12 +48,20 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public Payment findById(Long id) {
+    public PaymentDTOResponse findById(Long id) {
         LOG.info("PaymentService | findById is called");
 
-        LOG.info("PaymentService | findById | order : " + paymentRepository.getById(id).toString());
+        Optional<Payment> payment = paymentRepository.findById(id);
+        if(payment.isPresent()) {
+            Payment selectedPayment = payment.get();
+            PaymentDTOResponse paymentDTOResponse = new PaymentDTOResponse();
+            paymentDTOResponse.setMoment(selectedPayment.getMoment());
+            paymentDTOResponse.setOrder(selectedPayment.getOrder());
 
-        return paymentRepository.getById(id);
+            return paymentDTOResponse;
+        }
+
+        return null;
     }
 
     @Override

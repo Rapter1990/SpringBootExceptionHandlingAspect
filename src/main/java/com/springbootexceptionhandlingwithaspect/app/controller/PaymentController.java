@@ -2,6 +2,7 @@ package com.springbootexceptionhandlingwithaspect.app.controller;
 
 import com.springbootexceptionhandlingwithaspect.app.model.Payment;
 import com.springbootexceptionhandlingwithaspect.app.request.PaymentDTO;
+import com.springbootexceptionhandlingwithaspect.app.response.PaymentDTOResponse;
 import com.springbootexceptionhandlingwithaspect.app.service.PaymentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,10 +39,10 @@ public class PaymentController {
 
     // http://localhost:8082/api/payment/v1/payment/getPaymentById/{id}
     @GetMapping("/payment/getPaymentById/{id}")
-    public ResponseEntity<Payment> getPaymentById(@PathVariable long id) {
+    public ResponseEntity<PaymentDTOResponse> getPaymentById(@PathVariable long id) {
         LOG.info("PaymentController | getPaymentById is called");
-        Payment payment = paymentService.findById(id);
-        return ResponseEntity.ok(payment);
+        PaymentDTOResponse paymentDTOResponse = paymentService.findById(id);
+        return ResponseEntity.ok(paymentDTOResponse);
     }
 
     // http://localhost:8082/api/payment/v1/payment/update?id={id}

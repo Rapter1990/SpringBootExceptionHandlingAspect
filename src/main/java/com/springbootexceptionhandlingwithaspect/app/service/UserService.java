@@ -1,5 +1,8 @@
 package com.springbootexceptionhandlingwithaspect.app.service;
 
+import com.springbootexceptionhandlingwithaspect.app.exception.CategoryNotFoundException;
+import com.springbootexceptionhandlingwithaspect.app.exception.UserNotFoundException;
+import com.springbootexceptionhandlingwithaspect.app.model.Category;
 import com.springbootexceptionhandlingwithaspect.app.model.Order;
 import com.springbootexceptionhandlingwithaspect.app.model.User;
 import com.springbootexceptionhandlingwithaspect.app.repository.OrderRepository;
@@ -38,9 +41,8 @@ public class UserService implements IUserService {
     public User findById(Long id) {
         LOG.info("UserService | findById is called");
 
-        LOG.info("UserService | findById | user : " + userRepository.getById(id).toString());
-
-        return userRepository.getById(id);
+        Optional<User> obj = userRepository.findById(id);
+        return obj.orElseThrow(() -> new UserNotFoundException("User Not Found with id : " + id));
     }
 
     @Override
@@ -70,6 +72,8 @@ public class UserService implements IUserService {
             User deletedMovie= user.get();
             userRepository.delete(deletedMovie);
             LOG.info("UserService | delete | User deleted ");
+        }else{
+            throw new UserNotFoundException("User Not Found with id : " + id);
         }
     }
 
@@ -88,8 +92,9 @@ public class UserService implements IUserService {
 
             return userRepository.save(userUpdate);
 
+        }else{
+            throw new UserNotFoundException("User Not Found with id : " + id);
         }
 
-        return null;
     }
 }

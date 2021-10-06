@@ -1,5 +1,6 @@
 package com.springbootexceptionhandlingwithaspect.app.service;
 
+import com.springbootexceptionhandlingwithaspect.app.exception.CategoryNotFoundException;
 import com.springbootexceptionhandlingwithaspect.app.model.Category;
 import com.springbootexceptionhandlingwithaspect.app.model.User;
 import com.springbootexceptionhandlingwithaspect.app.repository.CategoryRepository;
@@ -36,9 +37,9 @@ public class CategoryService implements ICategoryService {
     public Category findById(Long id) {
         LOG.info("CategoryService | findById is called");
 
-        LOG.info("CategoryService | findById | category : " + categoryRepository.getById(id).toString());
+        Optional<Category> obj = categoryRepository.findById(id);
+        return obj.orElseThrow(() -> new CategoryNotFoundException("Category Not Found with id : " + id));
 
-        return categoryRepository.getById(id);
     }
 
     @Override
@@ -65,6 +66,8 @@ public class CategoryService implements ICategoryService {
             Category deletedCategory = category.get();
             categoryRepository.delete(deletedCategory);
             LOG.info("CategoryService | delete | Category deleted ");
+        }else{
+            throw new CategoryNotFoundException("Category Not Found with id : " + id);
         }
     }
 
@@ -78,8 +81,9 @@ public class CategoryService implements ICategoryService {
             categoryUpdate.setName(categoryDTO.getName());
 
             return categoryRepository.save(categoryUpdate);
+        }else{
+            throw new CategoryNotFoundException("Category Not Found with id : " + id);
         }
 
-        return null;
     }
 }

@@ -1,5 +1,6 @@
 package com.springbootexceptionhandlingwithaspect.app.service;
 
+import com.springbootexceptionhandlingwithaspect.app.exception.OrderNotFoundException;
 import com.springbootexceptionhandlingwithaspect.app.model.*;
 import com.springbootexceptionhandlingwithaspect.app.repository.*;
 import com.springbootexceptionhandlingwithaspect.app.request.OrderDTO;
@@ -57,9 +58,10 @@ public class OrderService implements IOrderService {
             orderDTOResponse.setUsers(selectedOrder.getUsers().stream().collect(Collectors.toList()));
 
             return orderDTOResponse;
+        }else{
+            throw new OrderNotFoundException("Order Not Found with id : " +id);
         }
 
-        return null;
     }
 
     @Override
@@ -94,6 +96,8 @@ public class OrderService implements IOrderService {
             Order deletedOrder = order.get();
             orderRepository.delete(deletedOrder);
             LOG.info("OrderService | delete | Order deleted ");
+        }else{
+            throw new OrderNotFoundException("Order Not Found with id : " +id);
         }
     }
 
@@ -116,8 +120,8 @@ public class OrderService implements IOrderService {
             orderUpdate.setPayment(payment);
 
             return orderRepository.save(orderUpdate);
+        }else{
+            throw new OrderNotFoundException("Order Not Found with id : " +id);
         }
-
-        return null;
     }
 }

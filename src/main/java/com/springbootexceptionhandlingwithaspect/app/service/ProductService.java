@@ -1,7 +1,7 @@
 package com.springbootexceptionhandlingwithaspect.app.service;
 
+import com.springbootexceptionhandlingwithaspect.app.exception.ProductNotFoundException;
 import com.springbootexceptionhandlingwithaspect.app.model.Category;
-import com.springbootexceptionhandlingwithaspect.app.model.Payment;
 import com.springbootexceptionhandlingwithaspect.app.model.Product;
 import com.springbootexceptionhandlingwithaspect.app.repository.CategoryRepository;
 import com.springbootexceptionhandlingwithaspect.app.repository.ProductRepository;
@@ -13,8 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -69,9 +67,10 @@ public class ProductService implements IProductService {
             productDTOResponse.setCategories(selectedProduct.getCategories().stream().collect(Collectors.toList()));
             return productDTOResponse;
 
+        }else{
+            throw new ProductNotFoundException("Product Not Found with id : " + id);
         }
 
-        return null;
     }
 
     @Override
@@ -103,6 +102,8 @@ public class ProductService implements IProductService {
             Product deletedProduct = product.get();
             productRepository.delete(deletedProduct);
             LOG.info("ProductService | delete | Category deleted ");
+        }else{
+            throw new ProductNotFoundException("Product Not Found with id : " + id);
         }
     }
 
@@ -123,9 +124,10 @@ public class ProductService implements IProductService {
             productUpdate.getCategories().add(category);
 
             return productRepository.save(productUpdate);
+        }else{
+            throw new ProductNotFoundException("Product Not Found with id : " + id);
         }
 
-        return null;
     }
 
 }

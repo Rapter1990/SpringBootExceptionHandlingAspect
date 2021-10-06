@@ -1,5 +1,6 @@
 package com.springbootexceptionhandlingwithaspect.app.service;
 
+import com.springbootexceptionhandlingwithaspect.app.exception.OrderItemNotFoundException;
 import com.springbootexceptionhandlingwithaspect.app.model.Order;
 import com.springbootexceptionhandlingwithaspect.app.model.OrderItem;
 import com.springbootexceptionhandlingwithaspect.app.model.Product;
@@ -7,7 +8,6 @@ import com.springbootexceptionhandlingwithaspect.app.repository.OrderItemReposit
 import com.springbootexceptionhandlingwithaspect.app.repository.OrderRepository;
 import com.springbootexceptionhandlingwithaspect.app.repository.ProductRepository;
 import com.springbootexceptionhandlingwithaspect.app.request.OrderItemDTO;
-import com.springbootexceptionhandlingwithaspect.app.response.OrderDTOResponse;
 import com.springbootexceptionhandlingwithaspect.app.response.OrderItemDTOResponse;
 import com.springbootexceptionhandlingwithaspect.app.service.impl.IOrderItemService;
 import org.slf4j.Logger;
@@ -60,9 +60,10 @@ public class OrderItemService implements IOrderItemService {
             orderItemDTOResponse.setQuantity(selectedOrderItem.getQuantity());
 
             return orderItemDTOResponse;
+        }else{
+            throw new OrderItemNotFoundException("OrderItem Not Found with id : " + id);
         }
 
-        return null;
     }
 
     @Override
@@ -95,6 +96,8 @@ public class OrderItemService implements IOrderItemService {
             OrderItem deletedOrderItem = orderItem.get();
             orderItemRepository.delete(deletedOrderItem);
             LOG.info("OrderItemService | delete | OrderItem deleted ");
+        }else{
+            throw new OrderItemNotFoundException("OrderItem Not Found with id : " + id);
         }
     }
 
@@ -115,8 +118,9 @@ public class OrderItemService implements IOrderItemService {
             orderItemUpdate.setPrice(orderItemDTO.getPrice());
 
             return orderItemRepository.save(orderItemUpdate);
+        }else{
+            throw new OrderItemNotFoundException("OrderItem Not Found with id : " + id);
         }
 
-        return null;
     }
 }

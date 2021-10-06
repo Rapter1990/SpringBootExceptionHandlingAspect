@@ -1,13 +1,12 @@
 package com.springbootexceptionhandlingwithaspect.app.service;
 
+import com.springbootexceptionhandlingwithaspect.app.exception.PaymentNotFoundException;
 import com.springbootexceptionhandlingwithaspect.app.model.Order;
 import com.springbootexceptionhandlingwithaspect.app.model.Payment;
-import com.springbootexceptionhandlingwithaspect.app.model.Product;
 import com.springbootexceptionhandlingwithaspect.app.repository.OrderRepository;
 import com.springbootexceptionhandlingwithaspect.app.repository.PaymentRepository;
 import com.springbootexceptionhandlingwithaspect.app.request.PaymentDTO;
 import com.springbootexceptionhandlingwithaspect.app.response.PaymentDTOResponse;
-import com.springbootexceptionhandlingwithaspect.app.response.ProductDTOResponse;
 import com.springbootexceptionhandlingwithaspect.app.service.impl.IPaymentService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -59,9 +58,10 @@ public class PaymentService implements IPaymentService {
             paymentDTOResponse.setOrder(selectedPayment.getOrder());
 
             return paymentDTOResponse;
+        }else{
+            throw new PaymentNotFoundException("Payment Not Found with id : " +id);
         }
 
-        return null;
     }
 
     @Override
@@ -90,6 +90,8 @@ public class PaymentService implements IPaymentService {
             Payment deletedPayment = payment.get();
             paymentRepository.delete(deletedPayment);
             LOG.info("PaymentService | delete | Payment deleted ");
+        }else{
+            throw new PaymentNotFoundException("Payment Not Found with id : " +id);
         }
     }
 
@@ -107,8 +109,9 @@ public class PaymentService implements IPaymentService {
             paymentUpdate.setOrder(order);
 
             return paymentRepository.save(paymentUpdate);
+        }else{
+            throw new PaymentNotFoundException("Payment Not Found with id : " +id);
         }
 
-        return null;
     }
 }

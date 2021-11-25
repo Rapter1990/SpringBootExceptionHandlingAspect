@@ -10,18 +10,27 @@
 </ul>
 
 
-### 🔨 Dockerize the App
+### 🔨 Run the App
 
-<b>1 )</b> <code> mvn clean install </code>
+There are 2 ways to run the app.
 
-<b>2 )</b> <code> docker build -t app . </code>
+### Docker Compose
 
-<b>3 )</b> <code> docker image ls </code>
+1. : Download your project from this link `https://github.com/Rapter1990/SpringBootExceptionHandlingAspect`
+2. : Go to the project's home directory though this command : `cd SpringBootExceptionHandlingAspect`
+3. : Create docker image though this command `docker build -t app . `
+4. : Show all docker images in docker though this command `docker image ls`
+5. : Show the docker images running in docker though this command `docker image ls`
+6. : Run the project in docker though this command `docker run -p 9999:8082 app`
 
-<b>4 )</b> <code> docker ps </code>
+### Maven
 
-<b>5 )</b> <code> docker run -p 9999:8082 app </code>
+1. Download your project from this link `https://github.com/Rapter1990/SpringBootExceptionHandlingAspect`
+2. Go to the project's home directory :  `cd SpringBootExceptionHandlingAspect`
+3. Create a jar file though this command `mvn clean install`
+4. Run the project though this command `mvn spring-boot:run`
 
+Use 8082 port to run the app in Maven part while docker runs the project in port number 9999.
 
 ### Screenshots
 
